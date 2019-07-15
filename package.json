@@ -23,21 +23,15 @@
     "precommit": "lint-staged",
     "commitmsg": "commitlint -e $GIT_PARAMS"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": ""
+    }
+  },
   "standard-version": {
     "scripts": {
       "posttag": "git push --follow-tags origin master && npm publish"
     }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ]
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
   },
   "dependencies": {
     "callsite-record": "^4.1.3",
