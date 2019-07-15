@@ -11,10 +11,9 @@
     "plugin",
     "html"
   ],
-  "author": "PICUS <hello@picus.pt>",
-  "homepage": "https://github.com/picuscreative/testcafe-reporter-html",
-  "bugs": "https://github.com/picuscreative/testcafe-reporter-html/issues",
-  "repository": "git@github.com:picuscreative/testcafe-reporter-html.git",
+  "author": "SentinelOne",
+  "homepage": "https://github.com/sivanisentinel/testcafe-reporter-html",
+  "repository": "git@github.com:sivanisentinel/testcafe-reporter-html.git",
   "license": "MIT",
   "main": "lib/index",
   "scripts": {
