@@ -47,7 +47,7 @@ module.exports = () => ({
     this.report += this.indentString(`<h4 id="test-${this.currentTestNumber}">${heading}`);
     if (testRunInfo.screenshots) {
       testRunInfo.screenshots.forEach((screenshot) => {
-        this.report += `&nbsp;&nbsp;<img class="thumbImg" src="data:image/png;base64, ${fs.readFileSync(screenshot.screenshotPath, { encoding: 'base64' })}"/>`;
+        this.report += `&nbsp;&nbsp;<img class="thumbImg" src="data:image/png;base64, ${fs.readFileSync(screenshot.screenshotPath, {encoding: 'base64'})}"/>`;
       });
     }
     this.report += '</h4>\n';
@@ -81,9 +81,9 @@ module.exports = () => ({
     this.tableReports += name;
     this.tableReports += '</td>\n';
     // Browsers
-    this.tableReports += this.indentString('<td>', 2);
-    this.tableReports += this.uaList;
-    this.tableReports += '</td>\n';
+    // this.tableReports += this.indentString('<td>', 2);
+    // this.tableReports += this.uaList;
+    // this.tableReports += '</td>\n';
 
     // Duration
     this.tableReports += this.indentString('<td>', 2);
@@ -204,7 +204,7 @@ module.exports = () => ({
             <th>#</th>
             <th>Fixture</th>
             <th>Test Name</th>
-            <th>Browsers</th>
+            <!--th>Browsers</th-->
             <th>Duration</th>
             <th>Result</th>
           </tr>
