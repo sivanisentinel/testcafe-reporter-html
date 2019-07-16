@@ -1,5 +1,5 @@
 {
-  "name": "@sentinel-one/testcafe-reporter-html",
+  "name": "sentinelOne-testcafe-reporter-html",
   "version": "1.4.5",
   "description": "The HTML reporter for TestCafe",
   "keywords": [
@@ -48,5 +48,6 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.11.0",
     "lint-staged": "^8.1.0"
-  }
+  },
+  "private": false
 }
