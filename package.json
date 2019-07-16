@@ -1,5 +1,5 @@
 {
-  "name": "sentinelone-testcafe-reporter-html",
+  "name": "testcafe-reporter-s1html",
   "version": "1.4.5",
   "description": "The HTML reporter for TestCafe",
   "keywords": [
