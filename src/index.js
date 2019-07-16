@@ -81,9 +81,9 @@ module.exports = () => ({
     this.tableReports += name;
     this.tableReports += '</td>\n';
     // Browsers
-    // this.tableReports += this.indentString('<td>', 2);
-    // this.tableReports += this.uaList;
-    // this.tableReports += '</td>\n';
+    this.tableReports += this.indentString('<td class="browser-cell">', 2);
+    this.tableReports += this.uaList;
+    this.tableReports += '</td>\n';
 
     // Duration
     this.tableReports += this.indentString('<td>', 2);
@@ -172,6 +172,10 @@ module.exports = () => ({
       .closeModal:focus {
         cursor: pointer;
       }
+      
+      .browser-cell {
+        white-space: nowrap;
+      }
     </style>
   </head>
   <body>
@@ -204,7 +208,7 @@ module.exports = () => ({
             <th>#</th>
             <th>Fixture</th>
             <th>Test Name</th>
-            <!--th>Browsers</th-->
+            <th>Browsers</th>
             <th>Duration</th>
             <th>Result</th>
           </tr>
