@@ -15,6 +15,7 @@ module.exports = () => ({
   skipped: 0,
   currentTestNumber: 1,
   serverUrl: '',
+  currentFixturePath: '',
 
   reportTaskStart: function reportTaskStart(startTime, userAgents, testCount) {
     this.startTime = startTime;
@@ -22,8 +23,9 @@ module.exports = () => ({
     this.testCount = testCount;
   },
 
-  reportFixtureStart: function reportFixtureStart(name, meta) {
+  reportFixtureStart: function reportFixtureStart(name, path, meta) {
     this.currentFixtureName = name;
+    this.currentFixturePath = path;
     console.log(meta);
     if (meta && meta.url) {
       this.serverUrl = `${meta.url}/login?username=${meta.username}&password=${meta.password}`;
@@ -75,6 +77,11 @@ module.exports = () => ({
     // Number
     this.tableReports += this.indentString('<td>', 2);
     this.tableReports += this.currentTestNumber;
+    this.tableReports += '</td>\n';
+
+    // path
+    this.tableReports += this.indentString('<td>', 2);
+    this.tableReports += this.currentFixturePath;
     this.tableReports += '</td>\n';
 
     // Fixture
@@ -212,6 +219,7 @@ module.exports = () => ({
         <thead>
           <tr>
             <th>#</th>
+            <th>path</th>
             <th>Fixture</th>
             <th>Test Name</th>
             <th>Browsers</th>
