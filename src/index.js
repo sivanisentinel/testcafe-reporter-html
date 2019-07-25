@@ -14,6 +14,7 @@ module.exports = () => ({
   testCount: 0,
   skipped: 0,
   currentTestNumber: 1,
+  serverUrl: '',
 
   reportTaskStart: function reportTaskStart(startTime, userAgents, testCount) {
     this.startTime = startTime;
@@ -21,8 +22,12 @@ module.exports = () => ({
     this.testCount = testCount;
   },
 
-  reportFixtureStart: function reportFixtureStart(name) {
+  reportFixtureStart: function reportFixtureStart(name, meta) {
     this.currentFixtureName = name;
+    console.log(meta);
+    if (meta && meta.url) {
+      this.serverUrl = `${meta.url}/login?username=${meta.username}&password=${meta.password}`;
+    }
   },
 
   reportTestDone: function reportTestDone(name, testRunInfo) {
@@ -154,8 +159,8 @@ module.exports = () => ({
       .modal-content {
         margin: auto;
         display: block;
-        width: 80%;
-        max-width: 700px;
+        /*width: 80%;
+        max-width: 700px;*/
       }
 
       .closeModal {
@@ -198,6 +203,7 @@ module.exports = () => ({
         <p class="lead">Duration: ${durationStr}</p>
         <p class="lead">Tests Failed: ${failed} out of ${this.testCount}</p>
         <p class="lead">Tests Skipped: ${this.skipped}</p>
+        <p class="lead">Environment: <a href=${this.serverUrl}>${this.serverUrl}</a></p>
       </div><br>`;
 
     // Summary table
