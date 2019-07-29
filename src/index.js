@@ -67,11 +67,11 @@ module.exports = () => ({
   compileTestTable: function compileTestTable(name, testRunInfo, hasErr, result) {
     let rowClass = this.currentTestNumber % 2 === 0 ? 'even ' : 'odd ';
     if (hasErr) {
-      rowClass += 'danger';
+      rowClass = rowClass.concat(' danger');
     } else if (testRunInfo.skipped) {
-      rowClass += 'warning';
+      rowClass = rowClass.concat(' warning');
     } else {
-      rowClass += 'success';
+      rowClass = rowClass.concat(' success');
     }
     this.tableReports += this.indentString(`<tr class=${rowClass}>\n`);
 
@@ -185,9 +185,6 @@ module.exports = () => ({
       
       .browser-cell {
         white-space: nowrap;
-      }
-      a {
-      color: white;
       }
       
       .main-container {
