@@ -26,7 +26,6 @@ module.exports = () => ({
   reportFixtureStart: function reportFixtureStart(name, path, meta) {
     this.currentFixtureName = name;
     this.currentFixturePath = path;
-    console.log(meta);
     if (meta && meta.url) {
       this.serverUrl = `${meta.url}/login?username=${meta.username}&password=${meta.password}`;
     }
@@ -66,50 +65,49 @@ module.exports = () => ({
   },
 
   compileTestTable: function compileTestTable(name, testRunInfo, hasErr, result) {
+    let rowClass = this.currentTestNumber % 2 === 0 ? 'even ' : 'odd ';
     if (hasErr) {
-      this.tableReports += this.indentString('<tr class="danger">\n');
+      rowClass += 'danger';
     } else if (testRunInfo.skipped) {
-      this.tableReports += this.indentString('<tr class="warning">\n');
+      rowClass += 'warning';
     } else {
-      this.tableReports += this.indentString('<tr class="success">\n');
+      rowClass += 'success';
     }
+    this.tableReports += this.indentString(`<tr class=${rowClass}>\n`);
 
+    const addTableCellFunction = (cellValue, cellClass = '') => {
+      this.tableReports += this.indentString(`<td class=${cellClass}>`, 2);
+      this.tableReports += cellValue;
+      this.tableReports += '</td>\n';
+    };
     // Number
-    this.tableReports += this.indentString('<td>', 2);
-    this.tableReports += this.currentTestNumber;
-    this.tableReports += '</td>\n';
+    addTableCellFunction(this.currentTestNumber);
 
     // path
-    this.tableReports += this.indentString('<td>', 2);
-    this.tableReports += this.currentFixturePath;
-    this.tableReports += '</td>\n';
+    addTableCellFunction(this.currentFixturePath);
 
     // Fixture
-    this.tableReports += this.indentString('<td>', 2);
-    this.tableReports += this.currentFixtureName;
-    this.tableReports += '</td>\n';
+    addTableCellFunction(this.currentFixtureName);
+
     // Test
-    this.tableReports += this.indentString('<td>', 2);
-    this.tableReports += name;
-    this.tableReports += '</td>\n';
+    addTableCellFunction(name);
+
     // Browsers
-    this.tableReports += this.indentString('<td class="browser-cell">', 2);
-    this.tableReports += this.uaList;
-    this.tableReports += '</td>\n';
+    addTableCellFunction(this.uaList, "browser-cell");
 
     // Duration
-    this.tableReports += this.indentString('<td>', 2);
-    this.tableReports += this.moment.duration(testRunInfo.durationMs).format('h[h] mm[m] ss[s]');
-    this.tableReports += '</td>\n';
+    addTableCellFunction(this.moment.duration(testRunInfo.durationMs).format('h[h] mm[m] ss[s]'));
+
     // Result
-    this.tableReports += this.indentString('<td>', 2);
+    let resultCellValue;
     if (testRunInfo.skipped) {
-      this.tableReports += 'skipped';
+      resultCellValue = 'skipped';
     } else if (result === 'failed') {
-      this.tableReports += `<a href="#test-${this.currentTestNumber}">failed</a>`;
+      resultCellValue = 'failed';
     } else {
-      this.tableReports += result;
+      resultCellValue = `<a href="#test-${this.currentTestNumber}">failed</a>`;
     }
+    addTableCellFunction(resultCellValue);
 
     this.tableReports += '</td>\n';
 
@@ -154,7 +152,7 @@ module.exports = () => ({
         display: none;
         position: fixed;
         z-index: 1;
-        padding-top: 100px;
+        /*padding-top: 100px;*/
         left: 0;
         top: 0;
         width: 100%;
@@ -188,6 +186,24 @@ module.exports = () => ({
       .browser-cell {
         white-space: nowrap;
       }
+      a {
+      color: white;
+      }
+      
+      .main-container {
+        width: 95%;
+        adding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+      .summary-panel{
+        padding: 15px;
+        border: 2px solid lightsteelblue;
+        background-color: white;
+        color: #337ab7;
+        font-size: 16px;
+      }
     </style>
   </head>
   <body>
@@ -195,22 +211,21 @@ module.exports = () => ({
       <span class="closeModal">&times;</span>
       <img class="modal-content" id="modelImage">
     </div>
-    <div class="container">
+    <div class="main-container">
 `;
 
     // Now add a summary
     html += `
       <h1 class="text-primary">TestCafe Test Summary</h1>
       <br>
-      <div class="client-logo" style="padding:15px"></div>
-      <div class="bg-primary" style="padding:15px">
-        <h3>Summary</h3><br>
-        <p class="lead">Start Time: ${this.startTime}</p>
-        <p class="lead">Browsers: ${this.uaList}</p>
-        <p class="lead">Duration: ${durationStr}</p>
-        <p class="lead">Tests Failed: ${failed} out of ${this.testCount}</p>
-        <p class="lead">Tests Skipped: ${this.skipped}</p>
-        <p class="lead">Environment: <a href=${this.serverUrl}>${this.serverUrl}</a></p>
+      <div class="client-logo" style="padding:15px; display:none;"></div>
+      <div class="summary-panel" style="padding:15px">
+        <div>Start Time: ${this.startTime}</div>
+        <div>Browsers: ${this.uaList}</div>
+        <div>Duration: ${durationStr}</div>
+        <div>Tests Failed: ${failed} out of ${this.testCount}</div>
+        <div>Tests Skipped: ${this.skipped}</div>
+        <div>Environment: <a href=${this.serverUrl}>${this.serverUrl}</a></div>
       </div><br>`;
 
     // Summary table
@@ -219,7 +234,7 @@ module.exports = () => ({
         <thead>
           <tr>
             <th>#</th>
-            <th>path</th>
+            <th>Path</th>
             <th>Fixture</th>
             <th>Test Name</th>
             <th>Browsers</th>
