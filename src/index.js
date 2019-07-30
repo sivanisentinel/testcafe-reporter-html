@@ -73,10 +73,10 @@ module.exports = () => ({
     } else {
       rowClass = rowClass.concat(' success');
     }
-    this.tableReports += this.indentString(`<tr class=${rowClass}>\n`);
+    this.tableReports += this.indentString(`<tr class="${rowClass}">\n`);
 
     const addTableCellFunction = (cellValue, cellClass = '') => {
-      this.tableReports += this.indentString(`<td class=${cellClass}>`, 2);
+      this.tableReports += this.indentString(`<td class="${cellClass}">`, 2);
       this.tableReports += cellValue;
       this.tableReports += '</td>\n';
     };
@@ -103,9 +103,9 @@ module.exports = () => ({
     if (testRunInfo.skipped) {
       resultCellValue = 'skipped';
     } else if (result === 'failed') {
-      resultCellValue = 'failed';
-    } else {
       resultCellValue = `<a href="#test-${this.currentTestNumber}">failed</a>`;
+    } else {
+      resultCellValue = result;
     }
     addTableCellFunction(resultCellValue);
 
